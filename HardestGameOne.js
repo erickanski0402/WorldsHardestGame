@@ -15,7 +15,7 @@ var img;
 function setup(){
     createCanvas(1100, 500);
     background(100, 140, 200);
-    img = loadImage("./assets/squidward_dab.jpg")
+    img = loadImage("./squidward_dab.jpg")
 
     // dots.push(new Enemy(325, 225, true));
     // dots.push(new Enemy(775, 275, false));

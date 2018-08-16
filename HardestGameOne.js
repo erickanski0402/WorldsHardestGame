@@ -14,7 +14,6 @@ var img;
 
 function setup(){
     createCanvas(1100, 500);
-    background(100, 140, 200);
     img = loadImage("./squidward_dab.jpg")
 
     // dots.push(new Enemy(325, 225, true));
@@ -32,6 +31,7 @@ function setup(){
 }
 
 function draw(){
+    background(100, 140, 200);
     drawStartGoalAreas();
     drawDangerAreas();
     drawMapFrame();

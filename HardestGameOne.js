@@ -14,12 +14,8 @@ var img;
 
 function setup(){
     createCanvas(1100, 500);
-    img = loadImage("./squidward_dab.jpg")
+    img = loadImage("./assets/squidward_dab.jpg")
 
-    // dots.push(new Enemy(325, 225, true));
-    // dots.push(new Enemy(775, 275, false));
-    // dots.push(new Enemy(325, 325, true));
-    // dots.push(new Enemy(775, 375, false));
     dots.push(new Enemy([[325,225],[775, 225]], 325, 225, 0, [775,225]));
     dots.push(new Enemy([[775,275],[325, 275]], 775, 275, 0, [325,275]));
     dots.push(new Enemy([[325,325],[775, 325]], 325, 325, 0, [775,325]));
@@ -81,6 +77,7 @@ function draw(){
         player.posY = 200;
     }
 
+    rectMode("center");
     drawPlayer();
 }
 
@@ -130,14 +127,19 @@ function drawEnemies(){
 }
 
 function drawPlayer(){
+    rectMode(CENTER);
     strokeWeight(5);
     fill(255, 0, 0);
-    rect(player.posX, player.posY, 35, 35);
+    rect(player.posX, player.posY, 30, 30);
+    rectMode(CORNER);
 }
 
 function checkForEnemyCollisions(){
     for(let i = 0; i < 4; i++){
-        if(Math.sqrt(Math.pow(dots[i].posX - player.posX, 2) + Math.pow(dots[i].posY - player.posY, 2)) <= 20){
+        DeltaX = dots[i].posX - Math.max(player.posX, Math.min(dots[i].posX, player.posX - 30));
+        DeltaY = dots[i].posY - Math.max(player.posY, Math.min(dots[i].posY, player.posY - 30));
+        if((DeltaX * DeltaX + DeltaY * DeltaY) < 600){
+            console.log("Player X pos: " + player.posX + " Player Y position: " + player.posY + " Enemy X pos:" + dots[i].posX + " Enemy Y pos: " + dots[i].posY)
             return false;
         }
     }
@@ -154,35 +156,35 @@ function checkForWinCondition(){
 
 function checkForWallCollisions(tempX, tempY){
     //console.log("X: " + tempX + "   Y: " + tempY);
-    if(tempX < 50 || tempX > 1015){
+    if(tempX < 65 || tempX > 1035){
         //player.posX = player.prevX;
         return false;
     }
 
-    if(tempY < 150 || tempY > 415){
+    if(tempY < 165 || tempY > 435){
         //player.posY = player.prevY;
         return false;
     }
 
-    if((tempX > 215 && tempX < 300) && (tempY > 115 && tempY < 400)){
-        //player.posX = player.prevX;
-        //player.posY = player.prevY;
-        return false;
-    }
-
-    if((tempX > 215 && tempX < 750) && (tempY > 115 && tempY < 200)){
+    if((tempX > 235 && tempX < 315) && (tempY > 135 && tempY < 415)){
         //player.posX = player.prevX;
         //player.posY = player.prevY;
         return false;
     }
 
-    if((tempX > 315 && tempX < 850) && (tempY > 365 && tempY < 450)){
+    if((tempX > 235 && tempX < 765) && (tempY > 135 && tempY < 215)){
         //player.posX = player.prevX;
         //player.posY = player.prevY;
         return false;
     }
 
-    if((tempX > 765 && tempX < 850) && (tempY > 165 && tempY < 450)){
+    if((tempX > 335 && tempX < 865) && (tempY > 385 && tempY < 465)){
+        //player.posX = player.prevX;
+        //player.posY = player.prevY;
+        return false;
+    }
+
+    if((tempX > 785 && tempX < 865) && (tempY > 185 && tempY < 465)){
         //player.posX = player.prevX;
         //player.posY = player.prevY;
         return false;

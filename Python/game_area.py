@@ -21,8 +21,18 @@ GAME_BOUNDARY_FRAME = [
 ]
 
 # [Bottom Left x, Bottom Left y, Width, Height]
+# WHY IS IT GOING BY THE TOP RIGHT CORNER???
 GAME_COLLISION_BOUNDARIES = [
-    [200, 150, 50, 300],
+    [170, 120, 80, 320],
+    [200, 320, 500, 120],
+    [670, 370, 330, 80],
+    [920, 20, 100, 400],
+    [720, 20, 300, 80],
+    [720, 20, 80, 330],
+    [270, 20, 500, 130],
+    [-30, 0, 350, 100],
+    [-30, -30, 80, 500],
+    [-30, 370, 300, 80]
 ]
 
 def draw_game_area():
@@ -34,33 +44,15 @@ def draw_game_area():
         glVertex2i(line[2], line[3])
         glEnd()
 
-def will_collide(player):
-    # [Colliding on x-axis, Colliding on y-axis]
-    colliding = [False, False]
-    future_x = player.pos_x + player.vel_x
-    future_y = player.pos_y + player.vel_y
-    player_w = player.width
-
+def will_collide(x, y):
     # Collision between x-axis seems to be working. But collision on the y-axis seems funky
+
     for boundary in GAME_COLLISION_BOUNDARIES:
-        boundary_x = boundary[0]
-        boundary_y = boundary[1]
-        boundary_w = boundary[2]
-        boundary_h = boundary[3]
+        boundaryX1 = boundary[0]
+        boundaryX2 = boundary[0] + boundary[2]
+        boundaryY1 = boundary[1]
+        boundaryY2 = boundary[1] + boundary[3]
+        if (x > boundaryX1 and x < boundaryX2) and (y > boundaryY1 and y < boundaryY2):
+            return True
 
-        if (future_x + player_w >= boundary_x) and (future_x <= boundary_x + boundary_w):
-            colliding[0] = True
-        if (future_y + player_w >= boundary_y) and (future_y <= boundary_y + boundary_h):
-            colliding[1] = True
-
-        # if (future_left_x > boundary[0] and future_left_x < (boundary[0] + boundary[2])):
-        #     colliding[0] = True
-        # if future_right_x > boundary[0] and future_right_x < (boundary[0] + boundary[2]):
-        #     colliding[0] = True
-        # if future_upper_y < boundary[1] + boundary[3] and future_upper_y > boundary[1]:
-        #     colliding[1] = True
-        # if future_lower_y < boundary[1] + boundary[3] and future_lower_y > boundary[1]:
-        #     colliding[1] = True
-
-
-    return colliding
+    return False

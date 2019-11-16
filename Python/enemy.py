@@ -1,4 +1,4 @@
-from math import pi, sin, cos, sqrt
+from math import pi, sin, cos, sqrt, pow
 from pyglet.gl import *
 
 class Enemy:
@@ -6,6 +6,7 @@ class Enemy:
         self.set(pos_x, pos_y, vel_x, vel_y, radius, False)
 
     def draw(self):
+        # print(f"Drawing enemy at position: ({self.pos_x}, {self.pos_y})")
         iterations = int(2 * self.radius * pi)
         s = sin(2 * pi / iterations)
         c = cos(2 * pi / iterations)
@@ -25,7 +26,7 @@ class Enemy:
         self.vel_x = vel_x
         self.vel_y = vel_y
         self.radius = radius
-        self.colliding = False
+        self.colliding = colliding
 
     def move(self, player):
         # print(f"Current position {self.pos_x}")
@@ -38,36 +39,63 @@ class Enemy:
             self.vel_x,
             self.vel_y,
             self.radius,
-            False
-            # self.check_collisions(player)
+            self.check_collisions(player)
         )
         self.draw()
 
     def check_collisions(self, player):
-        # Needs some work
-        player_height = 10
-        player_width = 10
-        player_pos_x = player.pos_x + player_width
-        player_pos_y = player.pos_y + player_height
+        player_left_x = player.pos_x
+        player_right_x = player.pos_x + player.width
+        player_top_y = player.pos_y + player.width
+        player_bottom_y = player.pos_y
 
-        test_x = self.pos_x
-        test_y = self.pos_y
-
-        if self.pos_x < player_pos_x:
-            test_x = player_pos_x
-        elif self.pos_x > player_pos_x + player_width:
-            test_x = player_pos_x + player_width
-        if self.pos_y < player_pos_y:
-            test_y = player_pos_x
-        elif self.pos_y > player_pos_y + player_height:
-            test_y = player_pos_y + player_height
-
-        dist_x = player_pos_x - test_x
-        dist_y = player_pos_y - test_y
-        # print();
-        distance = sqrt((dist_x * dist_x) + (dist_y * dist_y))
-
-        if(distance <= self.radius):
+        if ((self.pos_x < player_left_x) and (self.pos_y > player_top_y)
+        and sqrt(pow(self.pos_x - player_left_x, 2) + pow(self.pos_y - player_top_y, 2)) < self.radius):
+            # Top Left quadrant
+            print("Top left collision")
             return True
-        else:
-            return False
+
+        # left center quadrant
+        if ((self.pos_x < player_left_x) and (self.pos_y < player_top_y)
+        and (self.pos_y > player_bottom_y) and (player_left_x - self.pos_x) < self.radius):
+            # Left Center quadrant
+            print("Center left collision")
+            return True
+
+        if ((self.pos_x < player.pos_x) and (self.pos_y < player.pos_y)
+        and sqrt(pow(self.pos_x - player_left_x,2) + pow(self.pos_y - player_bottom_y,2)) < self.radius):
+            print("Bottom left collision")
+            # Bottom Left quadrant
+            return True
+
+        if ((self.pos_x < player_right_x) and (self.pos_y > player_top_y)
+        and sqrt(pow(self.pos_x - player_right_x, 2) + pow(self.pos_y - player_top_y, 2)) < self.radius):
+            # Top Right quadrant
+            print("Top right collision")
+            return True
+
+        # right center quadrant
+        if ((self.pos_x < player_right_x) and (self.pos_y < player_top_y)
+        and (self.pos_y > player_bottom_y) and (player_right_x - self.pos_x) < self.radius):
+            # Right Center quadrant
+            print("Center right collision")
+            return True
+
+        if ((self.pos_x < player.pos_x) and (self.pos_y < player.pos_y)
+        and sqrt(pow(self.pos_x - player_right_x,2) + pow(self.pos_y - player_bottom_y,2)) < self.radius):
+            print("Bottom right collision")
+            # Bottom Right quadrant
+            return True
+
+        if ((self.pos_x > player_left_x and self.pos_x < player_right_x)
+        and sqrt(pow(self.pos_y - player_top_y, 2)) < self.radius):
+            print("Top center collision")
+            # Top Center quadrant
+            return True
+
+        if ((self.pos_x > player_left_x and self.pos_x < player_right_x)
+        and sqrt(pow(self.pos_y - player_bottom_y, 2)) < self.radius):
+            print("Bottom center collision")
+            # Top Center quadrant
+            return True
+        return False

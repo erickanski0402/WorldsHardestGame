@@ -26,6 +26,9 @@ def main():
             enemy.move(player)
             # enemy.draw()
 
+            if enemy.colliding:
+                player.set(player.initial_x, player.initial_y, 0, 0, 30, False)
+
     @window.event
     def on_key_press(button, modifiers):
         # print("Button value:", button)
@@ -39,6 +42,8 @@ def main():
             player.vel_y += -2
         # print('Key press:', 'vel_x', player.vel_x, 'vel_y', player.vel_y)
 
+    # Need to refactor how movement works. When a player dies they preserve the keypress
+    # this causes issues with movement in the opposite direction when they release keys held
     @window.event
     def on_key_release(button, modifiers):
         # print("Button value:", button)

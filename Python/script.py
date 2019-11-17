@@ -62,33 +62,33 @@ def main():
             player.vel_x = 2
             player.vel_y = -2
         elif (DOWN_ARROW in keys) and (LEFT_ARROW in keys) and length is 2:
-            player.vel_x = -2
-            player.vel_y = -2
             # Down-left
+            player.vel_x = -2
+            player.vel_y = -2
         elif (UP_ARROW in keys) and (LEFT_ARROW in keys) and length is 2:
+            # Up-Left
             player.vel_x = -2
             player.vel_y = 2
-            # Up-Left
         elif (UP_ARROW in keys) and length is 1:
+            # Up
             player.vel_x = 0
             player.vel_y = 2
-            # Up
         elif (DOWN_ARROW in keys) and length is 1:
+            # Down
             player.vel_x = 0
             player.vel_y = -2
-            # Down
         elif (LEFT_ARROW in keys) and length is 1:
+            # left
             player.vel_x = -2
             player.vel_y = 0
-            # left
         elif (RIGHT_ARROW in keys) and length is 1:
+            # right
             player.vel_x = 2
             player.vel_y = 0
-            # right
         else:
+            # No movement
             player.vel_x = 0
             player.vel_y = 0
-            # No movement
 
     pyglet.clock.schedule_interval(update, 0.01)
     pyglet.app.run()

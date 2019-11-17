@@ -4,7 +4,14 @@ from enemy import Enemy
 from math import pi, sin, cos
 import pyglet
 
+UP_ARROW = 65362
+DOWN_ARROW = 65364
+LEFT_ARROW = 65361
+RIGHT_ARROW = 65363
+ARROW_KEYS = [UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW]
+
 def main():
+    keys = []
     player = Player(100, 300)
     # player = Player(300,300)
     enemies = [
@@ -32,30 +39,56 @@ def main():
     @window.event
     def on_key_press(button, modifiers):
         # print("Button value:", button)
-        if button == 65361:
-            player.vel_x += -2
-        if button == 65362:
-            player.vel_y += 2
-        if button == 65363:
-            player.vel_x += 2
-        if button == 65364:
-            player.vel_y += -2
-        # print('Key press:', 'vel_x', player.vel_x, 'vel_y', player.vel_y)
+        if button in ARROW_KEYS:
+            keys.append(button)
+            determine_movement_vector()
 
-    # Need to refactor how movement works. When a player dies they preserve the keypress
-    # this causes issues with movement in the opposite direction when they release keys held
     @window.event
     def on_key_release(button, modifiers):
         # print("Button value:", button)
-        if button == 65361:
-            player.vel_x += 2
-        if button == 65362:
-            player.vel_y += -2
-        if button == 65363:
-            player.vel_x += -2
-        if button == 65364:
-            player.vel_y += 2
-        # print('Key release:', 'vel_x', player.vel_x, 'vel_y', player.vel_y)
+        if button in ARROW_KEYS:
+            keys.remove(button)
+            determine_movement_vector()
+
+    # Could use a bit more work. Player cant move if more than 3 buttons are being pressed
+    def determine_movement_vector():
+        length = len(keys)
+        if (UP_ARROW in keys) and (RIGHT_ARROW in keys) and length is 2:
+            # Up-right
+            player.vel_x = 2
+            player.vel_y = 2
+        elif (DOWN_ARROW in keys) and (RIGHT_ARROW in keys) and length is 2:
+            # Down-right
+            player.vel_x = 2
+            player.vel_y = -2
+        elif (DOWN_ARROW in keys) and (LEFT_ARROW in keys) and length is 2:
+            player.vel_x = -2
+            player.vel_y = -2
+            # Down-left
+        elif (UP_ARROW in keys) and (LEFT_ARROW in keys) and length is 2:
+            player.vel_x = -2
+            player.vel_y = 2
+            # Up-Left
+        elif (UP_ARROW in keys) and length is 1:
+            player.vel_x = 0
+            player.vel_y = 2
+            # Up
+        elif (DOWN_ARROW in keys) and length is 1:
+            player.vel_x = 0
+            player.vel_y = -2
+            # Down
+        elif (LEFT_ARROW in keys) and length is 1:
+            player.vel_x = -2
+            player.vel_y = 0
+            # left
+        elif (RIGHT_ARROW in keys) and length is 1:
+            player.vel_x = 2
+            player.vel_y = 0
+            # right
+        else:
+            player.vel_x = 0
+            player.vel_y = 0
+            # No movement
 
     pyglet.clock.schedule_interval(update, 0.01)
     pyglet.app.run()

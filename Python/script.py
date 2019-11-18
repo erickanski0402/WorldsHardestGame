@@ -15,10 +15,10 @@ def main():
     player = Player(100, 300)
     # player = Player(300,300)
     enemies = [
-        Enemy(275, 175, 4, 0, 8),
-        Enemy(725, 225, -4, 0, 8),
-        Enemy(275, 275, 4, 0, 8),
-        Enemy(725, 325, -4, 0, 8),
+        Enemy(275, 175, 7, 0, 8),
+        Enemy(725, 225, -7, 0, 8),
+        Enemy(275, 275, 7, 0, 8),
+        Enemy(725, 325, -7, 0, 8),
     ]
     window = pyglet.window.Window(height = 500, width = 1000)
 
@@ -54,16 +54,16 @@ def main():
     def determine_movement_vector():
         length = len(keys)
         if (UP_ARROW in keys) and (DOWN_ARROW not in keys):
-            player.vel_y = 2
+            player.vel_y = 3
         elif (UP_ARROW not in keys) and (DOWN_ARROW in keys):
-            player.vel_y = -2
+            player.vel_y = -3
         else:
             player.vel_y = 0
 
         if (LEFT_ARROW in keys) and (RIGHT_ARROW not in keys):
-            player.vel_x = -2
+            player.vel_x = -3
         elif (LEFT_ARROW not in keys) and (RIGHT_ARROW in keys):
-            player.vel_x = 2
+            player.vel_x = 3
         else:
             player.vel_x = 0
 

@@ -5,7 +5,7 @@ class Player:
     def __init__(self, pos_x, pos_y):
         self.initial_x = pos_x
         self.initial_y = pos_y
-        self.set(pos_x = pos_x, pos_y = pos_y, vel_x = 0, vel_y = 0, width = 30, alive = True)
+        self.set(pos_x = pos_x, pos_y = pos_y, vel_x = 0, vel_y = 0, width = 40, alive = True)
 
     def draw(self):
         # Square is drown from the bottom left corner

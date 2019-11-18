@@ -53,42 +53,19 @@ def main():
     # Could use a bit more work. Player cant move if more than 3 buttons are being pressed
     def determine_movement_vector():
         length = len(keys)
-        if (UP_ARROW in keys) and (RIGHT_ARROW in keys) and length is 2:
-            # Up-right
-            player.vel_x = 2
+        if (UP_ARROW in keys) and (DOWN_ARROW not in keys):
             player.vel_y = 2
-        elif (DOWN_ARROW in keys) and (RIGHT_ARROW in keys) and length is 2:
-            # Down-right
-            player.vel_x = 2
+        elif (UP_ARROW not in keys) and (DOWN_ARROW in keys):
             player.vel_y = -2
-        elif (DOWN_ARROW in keys) and (LEFT_ARROW in keys) and length is 2:
-            # Down-left
-            player.vel_x = -2
-            player.vel_y = -2
-        elif (UP_ARROW in keys) and (LEFT_ARROW in keys) and length is 2:
-            # Up-Left
-            player.vel_x = -2
-            player.vel_y = 2
-        elif (UP_ARROW in keys) and length is 1:
-            # Up
-            player.vel_x = 0
-            player.vel_y = 2
-        elif (DOWN_ARROW in keys) and length is 1:
-            # Down
-            player.vel_x = 0
-            player.vel_y = -2
-        elif (LEFT_ARROW in keys) and length is 1:
-            # left
-            player.vel_x = -2
-            player.vel_y = 0
-        elif (RIGHT_ARROW in keys) and length is 1:
-            # right
-            player.vel_x = 2
-            player.vel_y = 0
         else:
-            # No movement
-            player.vel_x = 0
             player.vel_y = 0
+
+        if (LEFT_ARROW in keys) and (RIGHT_ARROW not in keys):
+            player.vel_x = -2
+        elif (LEFT_ARROW not in keys) and (RIGHT_ARROW in keys):
+            player.vel_x = 2
+        else:
+            player.vel_x = 0
 
     pyglet.clock.schedule_interval(update, 0.01)
     pyglet.app.run()
